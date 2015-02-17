@@ -1,0 +1,14 @@
+
+.tool-bar {
+    -fx-font-size: 12pt;
+    -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);
+    -fx-hpos: center
+}
+
+#bottomPane {
+    -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);
+    -fx-padding: .4em 0.516667em .4em 0.516667em;
+    -fx-background-color:
+        linear-gradient(to bottom, derive(-fx-base,-3%), derive(-fx-base,-6%)),
+        linear-gradient(to bottom, #e3e6ed 12%, #d0d2d6 50%);
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import java.net.*?>
+<?import javafx.collections.*?>
+
+<BorderPane 
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="fullpane" 
+    fx:controller="edu.cmu.cs464.zkieda.bones.gui.MainGuiController"
+    prefHeight="500"
+    prefWidth="600" >
+    
+    <stylesheets>
+        <URL value="@maingui.css"/>
+    </stylesheets>
+    
+    <top>
+        <ToolBar prefHeight="30.0">
+            <HBox spacing="10" >
+                <ChoiceBox fx:id="iktypes"/>
+                <Button text="KeyFrame"/>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <ToggleButton fx:id="playPauseButton" />
+        </ToolBar> 
+    </top>
+    
+    <bottom>
+        <StackPane id="bottomPane">
+        <Slider orientation="HORIZONTAL" showTickMarks="true" minorTickCount="5" fx:id="bottomSlider" max="5" min="0" />
+        </StackPane>
+    </bottom>
+    
+    
+    <center>
+        <Pane fx:id="bonepane" /> 
+    </center>
+    
+    <!-- 
+       what we want :   
+       ______________
+       | top bar    |  <= switch rigging type, options
+       ______________
+       | BONES PANE |
+       ______________  
+       | bottom bar | <= play button, pause button, timeline slider
+       ______________
+    --> 
+    
+    
+     
+</BorderPane>

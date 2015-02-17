@@ -1,0 +1,48 @@
+
+Models for the IK System : 
+//IK-model
+// new(IKSystem i)
+// + buildIK(Timeline t)
+// + getIK(double t) // 0.0 .. 1.0
+
+//IKSystem
+// + interpolate(Skeleton t, ...) : PointQuery
+// implements interpolation over an individual node. 
+
+// IKSystem should be our superclass interpolater, takes an IKModel
+// IKModel defines a basic interpolation over a small number of nodes
+// IKSystem interpolates using model over entire skele.
+
+
+Additional Features : 
+// 2. right click on jointnode => 
+//          To Fixed Node
+//          To Skele Node
+//          [if > 1 selected]
+//          Add Bone
+// 4. scroll => bone grows/shrinks in length
+// 5. keyframe (add information of skeleton to keyframe in current time)
+
+Bonus Points : 
+// 6. actual interpolation : 
+//    (use java timeline. interpolate skeleton using Interpolator)
+//    add a keyframe in at the given moment.
+// 7. saving : 
+//    save a file, includes keyframe seq, keyframe=(skeleton, time)
+//    
+//    just a serializable state
+
+//    then, be able to load the state back up.
+
+// 8. have a fast forward button (|>|>) that goes to next keyframe
+//    have a canvas that draws a red line under slider for each keyframe
+//    be able to delete an individual keyframe.
+
+
+Things that should really get done : 
+
+3. hook up fwd kinematics to the skeleton peer. Involves movement of a single 
+bone (or a joint) around its parent. Involves moving an entire skeleton when
+moving the skele joints.
+
+4. hook up timeline creation and keyframing to the animation.
