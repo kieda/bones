@@ -2,10 +2,10 @@
 IK and FX rigging tester with a neat UI
 
 ## Usage
-Shift + Click => create a new joint, select multiple joints
-Delete => delete joint[s], bone[s]
-Ctrl + Click => create a bone from all selected joints to the target joint
-Click + Drag => move around joints, perform FK rigging
+Shift + Click => create a new joint, select multiple joints<br>
+Delete => delete joint[s], bone[s]<br>
+Ctrl + Click => create a bone from all selected joints to the target joint<br>
+Click + Drag => move around joints, perform FK rigging<br>
 
 == 
 Keyframe: 
