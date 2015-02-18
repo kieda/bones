@@ -9,7 +9,7 @@ import edu.cmu.cs464.zkieda.bones.core.Diff;
 public class ShitIK implements IKType{
     @Override
     public String toString() {
-        return "Newton's IK";
+        return "Terrible IK";
     }
 
     @Override
