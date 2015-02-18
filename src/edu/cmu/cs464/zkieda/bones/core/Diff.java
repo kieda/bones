@@ -14,7 +14,6 @@ public class Diff{
     //list of movements of terminal nodes
     List<JointMovement> terminalMovements;
     
-    
     Diff(double t1, SkeletonCopy s1, double t2, SkeletonCopy s2){
         skeleMovements = new ArrayList<>();
         terminalMovements = new ArrayList<>();
