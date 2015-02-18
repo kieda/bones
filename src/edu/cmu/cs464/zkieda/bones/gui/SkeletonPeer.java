@@ -14,7 +14,7 @@ public class SkeletonPeer {
     private BoneGroup bones;
     private Pane head;
     
-    Skeleton getPeer(){return peer;}
+    public Skeleton getPeer(){return peer;}
     
     public SkeletonPeer(Pane head) {
         this.head = head;

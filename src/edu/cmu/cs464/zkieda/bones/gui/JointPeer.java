@@ -53,13 +53,14 @@ public class JointPeer extends Group{
     //circle. Have 'selected' effect. Have 'keyframe' effect.
     public JointPeer(final SkeletonPeer skeleton, double x, double y){
         final JointGroup jg = skeleton.getJoints();
-        this.peer = skeleton.getPeer().addJoint(this);
-        jg.addNode(this);
-        
         node = new Circle(x, y, radius);
         node.setStrokeWidth(1.0);
         node.setStroke(Color.BLACK);
         node.setFill(Color.AZURE);
+        this.peer = skeleton.getPeer().addJoint(this);
+        jg.addNode(this);
+        
+        
         getChildren().add(node);
         
         
@@ -105,9 +106,10 @@ public class JointPeer extends Group{
         
         setOnMouseDragged(
             t -> {
+                
                 double newPosX = t.getSceneX();
                 double newPosY = t.getSceneY();
-                
+//                System.out.println(newPosX + " "+newPosY);
                 //we attempt to move based on the translation of the new pont
                 //what actually occurs depends on our skeleton.
                 peer.attemptTranslation(newPosX, newPosY);
@@ -173,6 +175,10 @@ public class JointPeer extends Group{
     public JointStyle getJointStyle(){
         return jointStyle;
     }
+
+    public Circle getCircle() {
+        return node;
+    }
     
     
     //apply a translation
@@ -181,28 +187,8 @@ public class JointPeer extends Group{
     public void translate(double offsetX, double offsetY){
         double newTranslateX = translationX0 + offsetX;
         double newTranslateY = translationY0 + offsetY;
-        
         setTranslateX(newTranslateX);
         setTranslateY(newTranslateY);
-    }
-    
-    public double minX(){
-        return node.getCenterX() - node.getRadius();
-    }
-    public double minY(){
-        return node.getCenterY() - node.getRadius();
-    }
-    public double maxX(){
-        return node.getCenterX() + node.getRadius();
-    }
-    public double maxY(){
-        return node.getCenterY() + node.getRadius();
-    }
-    public double centerX(){
-        return node.getCenterX();
-    }
-    public double centerY(){
-        return node.getCenterY();
     }
     
 }

@@ -24,9 +24,6 @@ Additional Features :
 // 5. keyframe (add information of skeleton to keyframe in current time)
 
 Bonus Points : 
-// 6. actual interpolation : 
-//    (use java timeline. interpolate skeleton using Interpolator)
-//    add a keyframe in at the given moment.
 // 7. saving : 
 //    save a file, includes keyframe seq, keyframe=(skeleton, time)
 //    
@@ -39,10 +36,10 @@ Bonus Points :
 //    be able to delete an individual keyframe.
 
 
-Things that should really get done : 
+Things that should get done :
 
-3. hook up fwd kinematics to the skeleton peer. Involves movement of a single 
-bone (or a joint) around its parent. Involves moving an entire skeleton when
-moving the skele joints.
+Then, using IK, increase the resolution of the positions we can take. (Insert
+more keyframes)
 
-4. hook up timeline creation and keyframing to the animation.
+
+2. 

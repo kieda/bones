@@ -26,10 +26,33 @@ import java.util.Set;
 public class Skeleton {
     private SkeletonPeer peer;
     private List<Joint> joints = new ArrayList<Joint>();
+
+    public List<Joint> getJoints() {
+        return joints;
+    }
     
     //returns all children belonging to this base node
     Iterable<Joint> getChildren(final Joint base){
-        return null;
+        return () -> new Iterator<Joint>(){
+            private boolean hasNext = base != null;
+            private Joint next = base;
+            
+            private void findNext(){
+                next = next.getChild();
+                hasNext = next != null;
+            }
+            @Override
+            public boolean hasNext() {
+                return hasNext;
+            }
+
+            @Override
+            public Joint next() {
+                Joint next = this.next;
+                findNext();
+                return next;
+            }
+        };
     }
     
     //for the connection algos, will need
@@ -38,7 +61,7 @@ public class Skeleton {
     //basic DFS
     //if this gets slow, change frontier to Joint. Don't add starting joints
     //for outgoing and ending joints for incoming.
-    Iterable<Joint> getReachableJoints(final Joint base){
+    public Iterable<Joint> getReachableJoints(final Joint base){
         return () -> new Iterator<Joint>() {
             private boolean hasNext;
             private Joint next;
@@ -188,7 +211,7 @@ public class Skeleton {
         }
         
         final Bone bone = new Bone(bp, A, B);
-        A.getOutgoing().add(bone.reverse());
+        A.getOutgoing().add(bone);
         B.getIncoming().add(bone);
         
         /*

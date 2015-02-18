@@ -21,21 +21,20 @@
         <URL value="@maingui.css"/>
     </stylesheets>
     
-    <top>
-        <ToolBar prefHeight="30.0">
+    <bottom>
+        <VBox>
+            <ToolBar prefHeight="30.0">
             <HBox spacing="10" >
                 <ChoiceBox fx:id="iktypes"/>
-                <Button text="KeyFrame"/>
+                <Button fx:id='keyframeButton' text="KeyFrame"/>
             </HBox>
             <Region HBox.hgrow="ALWAYS" />
             <ToggleButton fx:id="playPauseButton" />
-        </ToolBar> 
-    </top>
-    
-    <bottom>
+        </ToolBar>
         <StackPane id="bottomPane">
         <Slider orientation="HORIZONTAL" showTickMarks="true" minorTickCount="5" fx:id="bottomSlider" max="5" min="0" />
         </StackPane>
+        </VBox>
     </bottom>
     
     

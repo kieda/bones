@@ -6,20 +6,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Joint{
+//    private double xPos, yPos;
     private JointPeer peer;
     private JointType thisJointType;
     private List<Bone> incoming, outgoing;
     private Skeleton skeleton;
+
+    public double getxPos() {
+        return peer.getTranslateX() + peer.getCircle().getCenterX();
+    }
+
+    public double getyPos() {
+        return peer.getTranslateY() + peer.getCircle().getCenterY();
+    }
+    
+    
     
     public JointType getJointType(){
         return thisJointType;
     }
     
-    List<Bone> getIncoming() {
+    public List<Bone> getIncoming() {
         return incoming;
     }
 
-    List<Bone> getOutgoing() {
+    public List<Bone> getOutgoing() {
         return outgoing;
     }
     
@@ -31,9 +42,12 @@ public class Joint{
         
         incoming = new ArrayList<>();
         outgoing = new ArrayList<>();
+        
+//        this.xPos = peer.getCircle().getCenterX();
+//        this.yPos = peer.getCircle().getCenterY();
     }
     
-    JointPeer getPeer(){return peer;}
+    public JointPeer getPeer(){return peer;}
     
     void setJointType(JointType newJointType){
         thisJointType = newJointType;
@@ -68,6 +82,10 @@ public class Joint{
                 break;
         }
     }
+    private void translate(double dx, double dy){
+        
+        peer.translate(dx, dy);
+    }
     
     //attempts to translate this joint as close as possible to the target
     //position. only modifies this joint, and the children of this joint.
@@ -88,23 +106,69 @@ public class Joint{
             case SKELE:{
                 //translate all connected components
                 for(Joint j : skeleton.getReachableJoints(this)){
-                    j.peer.translate(dx, dy);
+                    j.translate(dx, dy);
                 }
                 break;
-            }case MID:
-                //translate children as well
-                for(Joint j : skeleton.getChildren(this)){
-                    j.peer.translate(dx, dy);
+            }case MID:{
+                Joint parent = getParent();
+                    Bone constraint = getIncoming().get(0);
+                    final double length = constraint.getLength();
+                    
+                    //theta we should place the node at is minimized 
+                    //wrt its target when
+                    // theta_min = atan2(Py, Px)
+                    //where Px = parent.posX + deltaPosX - translation0X
+                    //Py is the same
+                    
+                    double mx = ptx - parent.getxPos();
+                    double my = pty - parent.getyPos();
+                    
+                    double normlen = length/Math.sqrt(mx*mx + my*my);
+                    double normX = mx*normlen;
+                    double normY = my*normlen;
+                    
+                    double newX = normX+parent.getxPos();
+                    double newY = normY+parent.getyPos();
+                    dx = newX-originX;
+                    dy = newY-originY;
+                    //translate children as well (TODO fix up. keep good bone len)
+                    for(Joint j : skeleton.getChildren(this)){
+                        j.translate(dx, dy);
+                    }
+                break;
+            }case TERM:{
+                if(isSingletonTerminal()){
+                    translate(dx, dy); 
+                } else{
+                    //translate wrt the parent
+                    //keep in mind the bone
+                    Joint parent = getParent();
+                    Bone constraint = getIncoming().get(0);
+                    final double length = constraint.getLength();
+                    
+                    //theta we should place the node at is minimized 
+                    //wrt its target when
+                    // theta_min = atan2(Py, Px)
+                    //where Px = parent.posX + deltaPosX - translation0X
+                    //Py is the same
+                    
+                    double mx = ptx - parent.getxPos();
+                    double my = pty - parent.getyPos();
+                    
+                    double normlen = length/Math.sqrt(mx*mx + my*my);
+                    double normX = mx*normlen;
+                    double normY = my*normlen;
+                    
+                    double newX = normX+parent.getxPos();
+                    double newY = normY+parent.getyPos();
+                    
+                    translate(newX-originX, newY-originY);
                 }
+                
                 break;
-            case TERM:
-                //just translate this
-                peer.translate(dx, dy); 
-                break;
+            }
         }
     }
-    
-    
     
     public boolean isSkeleJoint(){
         return thisJointType == JointType.SKELE;

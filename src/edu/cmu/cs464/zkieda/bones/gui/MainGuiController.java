@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
@@ -36,6 +37,7 @@ public class MainGuiController implements Initializable {
     @FXML private Slider bottomSlider;
     @FXML private ToggleButton playPauseButton;
     @FXML private Pane bonepane;
+    @FXML private Button keyframeButton;
     
     private final List<IKType> allIKTypes;
     private final IKType defaultIK;
@@ -86,6 +88,7 @@ public class MainGuiController implements Initializable {
                     //when we change the ik, set the state back to 
                     //the beginning.
                     core.currentTime().set(0);
+                    core.setIK(newval);
                 }
             );
             
@@ -101,6 +104,7 @@ public class MainGuiController implements Initializable {
             playPauseButton.selectedProperty().addListener(
                 (val, oldval, newval) -> {
                     if(newval){
+                        core.animate();
                         playPauseButton.setGraphic(pauseGraphic);
                     } else{
                         playPauseButton.setGraphic(playGraphic);
@@ -126,18 +130,22 @@ public class MainGuiController implements Initializable {
         }
         
         {
-            final SkeletonPeer skele = new SkeletonPeer(bonepane);
-            final JointGroup joints = skele.getJoints();
-           
+            
+            core.init(bonepane);
+            
             //add new joint
             bonepane.addEventHandler(MouseEvent.MOUSE_PRESSED, 
                 evt -> {
                     switch(evt.getButton()){
                         case PRIMARY:
-                            if(evt.isShiftDown())
-                                joints.getChildren().add(new JointPeer(skele, evt.getX(), evt.getY()));
-                            joints.deselectAll();
-                            skele.getBones().deselectAllBones();
+                            if(evt.isShiftDown()){
+                                JointPeer jp = new JointPeer(core.getSkeleton(), evt.getSceneX(), evt.getSceneY());
+                                jp.setTranslateX(evt.getX() - evt.getSceneX());
+                                jp.setTranslateY(evt.getY() - evt.getSceneY());
+                                core.getJoints().getChildren().add(jp);
+                            }
+                            core.getJoints().deselectAll();
+                            core.getSkeleton().getBones().deselectAllBones();
                             break;
                         case SECONDARY:
                             break;
@@ -149,12 +157,20 @@ public class MainGuiController implements Initializable {
                     switch(t.getCode()){
                         case BACK_SPACE:
                         case DELETE:
-                            skele.getBones().removeSelectedBones();
-                            joints.removeAllSelected();
+                            core.getSkeleton().getBones().removeSelectedBones();
+                            core.getJoints().removeAllSelected();
                             break;
                     }
                 });
 
+        }
+        
+        {
+            keyframeButton.setOnAction(
+                t -> {
+                    core.addCurrentFrame();
+                }
+            );
         }
     }
 }

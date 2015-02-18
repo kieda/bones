@@ -1,5 +1,6 @@
 package edu.cmu.cs464.zkieda.bones.gui;
 
+import edu.cmu.cs464.zkieda.bones.ik.Joint;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Group;
@@ -83,4 +84,8 @@ public class JointGroup extends Group {
     }
     
     List<JointPeer> getSelected(){return selected;}
+    
+    public List<Joint> getAllJoints(){
+        return skele.getPeer().getJoints();
+    }
 }

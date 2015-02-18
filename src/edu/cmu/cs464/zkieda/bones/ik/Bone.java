@@ -7,21 +7,21 @@ import edu.cmu.cs464.zkieda.bones.gui.BonePeer;
  */
 public class Bone{
     private BonePeer peer;
-    private double len;
+    private double length;
     private Joint start, end;
     public Bone(BonePeer peer, Joint start, Joint end){
         this.peer = peer;
         this.start = start;
         this.end = end;
+        double lenX = start.getxPos() - end.getxPos();
+        double lenY = start.getyPos() - end.getyPos();
+        
+        length = Math.sqrt(lenX*lenX + lenY*lenY);
     }
-    BonePeer getPeer() {
+    public BonePeer getPeer() {
         return peer;
     }
-    Joint getStart(){return start;}
-    Joint getEnd(){return end;}
-    double getLen(){return len;}
-    
-    Bone reverse(){
-        return new Bone(peer, end, start);
-    }
+    public Joint getStart(){return start;}
+    public Joint getEnd(){return end;}
+    public double getLength(){return length;}
 }
