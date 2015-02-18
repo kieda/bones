@@ -16,6 +16,7 @@ The joints with 0 lines are terminal joints, 1 line are middle joints, and 2 lin
 The terminal joints are the end-effectors that are rigged using IK thru multiple keyframes. The middle joints also move as a result of the IK, and their positions are not captured explicitly in a keyframe. Skeleton joints serve as the 'root' of the skeleton, and are fixed with respect to one another.
 
 ## Screenshots
+![alt text](https://raw.githubusercontent.com/kieda/bones/master/ik-types.png "")
 ![alt text](https://raw.githubusercontent.com/kieda/bones/master/scrot1.png "")
 ![alt text](https://raw.githubusercontent.com/kieda/bones/master/scrot2.png "")
 ![alt text](https://raw.githubusercontent.com/kieda/bones/master/scrot3.png "")
