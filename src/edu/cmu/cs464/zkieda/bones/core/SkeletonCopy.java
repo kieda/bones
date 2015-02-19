@@ -26,6 +26,7 @@ public class SkeletonCopy{
             end = map.get(b.getEnd().getPeer());
         }
     }
+    
     public static class JointCopy{
         public JointPeer peer;
         public BoneCopy[] incoming, outgoing;
@@ -62,7 +63,6 @@ public class SkeletonCopy{
         }
     }
     
-    //todo reconstruct copies data
     public void reconstruct(SkeletonPeer gui){
         for(Joint jp : gui.getJoints().getAllJoints()){
             //for each joint in gui

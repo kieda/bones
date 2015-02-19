@@ -108,8 +108,6 @@ public class Core {
         dirty = true;
     }
     
-    //frame every 60 millis
-    private final static long resolution = 100;
     private IKType ik;
     private boolean dirty = true;
     private DiffTimeline dt;
@@ -229,7 +227,10 @@ public class Core {
        
     }
     
-    private final double stepsize = .025;//~40 frames per second
+    private final double stepsize = .025;
+        //optimal : ~40 frames per second
+        //it's unlikely that's going to happen, due to the O(n^6) overhead
+        //of processing keyframes and the amount of space used...
     
     private void addKeyFrame(final Diff d){
         double elapsed = 0;

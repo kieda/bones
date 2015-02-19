@@ -35,11 +35,7 @@ Bonus Points :
 //    have a canvas that draws a red line under slider for each keyframe
 //    be able to delete an individual keyframe.
 
-
-Things that should get done :
-
-Then, using IK, increase the resolution of the positions we can take. (Insert
-more keyframes)
-
-
-2. 
+Things that should get done : 
+1. ccd ik
+2. jacobian
+3. inverse jacobian

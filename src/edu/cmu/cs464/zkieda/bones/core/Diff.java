@@ -40,12 +40,15 @@ public class Diff{
                         SkeletonCopy.JointCopy terminal = jc;
                         List<SkeletonCopy.JointCopy> joints = new ArrayList<>();
                         List<SkeletonCopy.BoneCopy> bones = new ArrayList<>();
-                        while(jc.jointType != JointType.SKELE){
-                            joints.add(jc);
-                            bones.add(jc.incoming[0]);
-                            jc = jc.incoming[0].start;
-                        }
+                        
                         SkeletonCopy.JointCopy root = jc;
+                        while(root.jointType != JointType.SKELE){
+                            joints.add(root);
+                            bones.add(root.incoming[0]);
+                            root = root.incoming[0].start;
+                        }
+                        joints.add(root);
+                        
                         SkeletonCopy.JointCopy rootFinal = root;
                         
                         //get root final
@@ -55,7 +58,6 @@ public class Diff{
                                 break;
                             }
                         }
-                        
                         
                         terminalMovements.add(new JointMovement(
                             new Appendage(root, terminal, joints.toArray(new SkeletonCopy.JointCopy[0]), bones.toArray(new SkeletonCopy.BoneCopy[0])),

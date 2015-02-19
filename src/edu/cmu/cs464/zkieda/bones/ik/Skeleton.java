@@ -160,7 +160,6 @@ public class Skeleton {
         //re-evaluate nodes at the endpoints.
         //remove constraints
         
-        
     }
     
     public Joint addJoint(JointPeer jp){

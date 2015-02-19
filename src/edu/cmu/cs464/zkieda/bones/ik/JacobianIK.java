@@ -1,30 +1,24 @@
 package edu.cmu.cs464.zkieda.bones.ik;
 
-import edu.cmu.cs464.zkieda.bones.core.Appendage;
 import edu.cmu.cs464.zkieda.bones.core.Diff;
-import static edu.cmu.cs464.zkieda.bones.core.SkeletonCopy.*;
+import edu.cmu.cs464.zkieda.bones.core.SkeletonCopy;
 import edu.cmu.cs464.zkieda.bones.gui.JointPeer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
-public class CyclicCoordDescentIK implements IKType{
-
-    @Override
-    public String toString() {
-        return "Cyclic Coord Descent";
-    }
-
-    @Override
+public abstract class JacobianIK implements IKType{
+    
+    //inverts the current matrix. 
+    //different from the transpose IK to the pseudoinverse IK.
+    public abstract double[][] invertJacobian(double[][] mat);
+    
+    
     public IKInterpolator gen(Diff.JointMovement movement) {
         return new IKInterpolator() {
             private final Vector2d unitY = new Vector2d(0.0, 1.0);
             private List<Double> currentTheta = new ArrayList<>();
             private List<Vector2d> currentPos = new ArrayList<>();
-            private List<Vector2d> initialPos = new ArrayList<>();
             private Vector2d target;
             private int N; // number of nodes we're using
 
@@ -74,11 +68,9 @@ public class CyclicCoordDescentIK implements IKType{
 
             private void converge(int i){
                 //initalization of pos, theta, and target locations.
-                for(JointCopy jc :  movement.movable.joints){
+                for(SkeletonCopy.JointCopy jc :  movement.movable.joints){
                     //for each jc, we copy the value of the current 
-                    Vector2d it = new Vector2d(jc.xPos - movement.movable.root.xPos, jc.yPos - movement.movable.root.yPos);
-                    currentPos.add(it);
-                    initialPos.add(new Vector2d(it));
+                    currentPos.add(new Vector2d(jc.xPos - movement.movable.root.xPos, jc.yPos - movement.movable.root.yPos));
                     currentTheta.add(0.0);
                 }
                 target = new Vector2d(movement.movable.terminal.xPos,
@@ -91,37 +83,19 @@ public class CyclicCoordDescentIK implements IKType{
             //solution is the theta we rotate each node
             private List<Double> getSolution(){
                 //should probably be good
-                converge(1);
+                converge(7);
                 // return soln;
                 return currentTheta;
             }
             
-            private final List<Double> thetas;
-            private final List<Vector2d> basicTranslation;
-            
-            {
-                thetas = getSolution();
-                basicTranslation = simpleTranslation();
-            }
-            
-            private List<Vector2d> simpleTranslation(){
-                List<Vector2d> ret = new ArrayList<>();
-                for(int i = 0; i < currentPos.size();i++){
-                    Vector2d it = new Vector2d(currentPos.get(i));
-                    it.x -= movement.movable.joints[i].xPos;
-                    it.y -= movement.movable.joints[i].yPos;
-//                    it.sub(initialPos.get(i));
-                    ret.add(it);
-                }
-                return currentPos;
-            }
+            private final List<Double> thetas = getSolution();
             
             @Override
             public void increment(double h) {
                 //solution of rotation for each joint (excluding terminal node)
                 int i = 0;
-                for(JointCopy jc : movement.movable.joints){
-                    List<Vector2d> translation = basicTranslation; //  movement.movable.rotate(jc, thetas.get(i));
+                for(SkeletonCopy.JointCopy jc : movement.movable.joints){
+                    List<Vector2d> translation =  movement.movable.rotate(jc, thetas.get(i));
                     for(int count = 0; count < translation.size(); count++){
                         Vector2d t = translation.get(count);
                         //t is the translation that should be applied to 
@@ -135,5 +109,5 @@ public class CyclicCoordDescentIK implements IKType{
             }
         };
     }
-
+    
 }
