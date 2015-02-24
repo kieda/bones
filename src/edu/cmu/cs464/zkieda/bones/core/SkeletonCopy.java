@@ -18,8 +18,8 @@ public class SkeletonCopy{
     private Map<JointPeer, JointCopy> map = new HashMap<>();
     
     public static class BoneCopy{
-        double length;
-        JointCopy start, end;
+        public double length;
+        public JointCopy start, end;
         BoneCopy(Bone b, Map<JointPeer, JointCopy> map){
             length = b.getLength();
             start = map.get(b.getStart().getPeer());

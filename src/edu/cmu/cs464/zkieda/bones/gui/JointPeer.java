@@ -20,6 +20,13 @@ public class JointPeer extends Group{
 //    private final MenuItem toSkeleNode;
 //    private final MenuItem toMidNode;
 //    private final MenuItem toEndNode;
+    public double getxPos() {
+        return getTranslateX() + getCircle().getCenterX();
+    }
+
+    public double getyPos() {
+        return getTranslateY() + getCircle().getCenterY();
+    }
     
     //used, and should only be used by Joint.java
     private double translationX0, translationY0;

@@ -36,6 +36,5 @@ Bonus Points :
 //    be able to delete an individual keyframe.
 
 Things that should get done : 
-1. ccd ik
-2. jacobian
-3. inverse jacobian
+
+1. fix jacobian IK

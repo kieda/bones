@@ -120,7 +120,7 @@ public class Core {
     private double curtime = 0;
     private double prevtime;
     public void animate(){
-        if(!dirty) return;
+//        if(!dirty) return;
         if(timeline.size() == 0){
             //just stay in the same position.s
             animation.getKeyFrames().clear();
